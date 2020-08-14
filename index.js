@@ -47,7 +47,9 @@ app.post("/", async(req, res) => {
         })
     })
 
+    console.log(api_res)
     api_res = await api_res.text()
+
     res.json({requestBody: api_res});
 })
 
