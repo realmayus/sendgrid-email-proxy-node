@@ -1,5 +1,6 @@
 const express = require('express')
 const fetch = require('node-fetch')
+const bodyParser = require('body-parser')
 const fs = require('fs')
 const app = express()
 const port = 8080
@@ -7,7 +8,7 @@ const apiUrl = "https://api.sendgrid.com/v3"
 const secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'))
 const {sendgridKey, destinationEmailAddress} = secrets
 
-app.use(express.json())
+app.use(bodyParser.json())
 
 
 app.post("/", async(req, res) => {
