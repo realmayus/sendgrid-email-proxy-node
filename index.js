@@ -15,6 +15,29 @@ app.post("/", async(req, res) => {
 
     let email = req.fields;
     console.log(email);
+    let body = {
+        personalizations: [
+            {
+                subject: email.subject,
+                to: [{
+                    email: destinationEmailAddress
+                }]
+            }
+        ],
+        from: {
+            email: "noreply@realmayus.xyz",
+            name: "Email Proxy: " + email.from
+        },
+        reply_to: {
+            email: JSON.parse(email.envelope).from
+        },
+        content: [
+            {
+                type: "text/html",
+                value: email.text == null ? email.spam_report : email.text
+            }
+        ]
+    }
     let api_res = await fetch(apiUrl + "/mail/send", {
         method: "POST",
         headers: {
@@ -22,32 +45,11 @@ app.post("/", async(req, res) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + sendgridKey
         },
-        body: {
-            personalizations: [
-                {
-                    subject: email.subject,
-                    to: [{
-                        email: destinationEmailAddress
-                    }]
-                }
-            ],
-            from: {
-                email: "noreply@realmayus.xyz",
-                name: "Email Proxy: " + email.from
-            },
-            reply_to: {
-                email: JSON.parse(email.envelope).from
-            },
-            content: [
-                {
-                    type: "text/html",
-                    value: email.text == null ? email.spam_report : email.text
-                }
-            ]
-        }
+        body: JSON.stringify(body)
     })
 
     console.log(api_res)
+    console.log(JSON.stringify(body))
     api_res = await api_res.text()
 
     res.json({requestBody: api_res});
