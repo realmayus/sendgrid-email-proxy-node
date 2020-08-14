@@ -7,7 +7,7 @@ const secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'))
 const {sendgridKey, destinationEmailAddress} = secrets
 
 
-app.post("/post", async(ctx) => {
+app.post("/", async(ctx) => {
     let email = await ctx.body();
     let res = await fetch(apiUrl + "/mail/send", {
         method: "POST",
