@@ -6,10 +6,12 @@ const apiUrl = "https://api.sendgrid.com/v3"
 const secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'))
 const {sendgridKey, destinationEmailAddress} = secrets
 
+app.use(express.json())
 
-app.post("/", async(ctx) => {
-    let email = await ctx.body();
-    let res = await fetch(apiUrl + "/mail/send", {
+
+app.post("/", async(req, res) => {
+    let email = await req.body();
+    let api_res = await fetch(apiUrl + "/mail/send", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -41,8 +43,8 @@ app.post("/", async(ctx) => {
         })
     })
 
-    res = await res.text()
-    return res;
+    api_res = await api_res.text()
+    res.json({requestBody: api_res});
 })
 
 app.listen(port, () => {
