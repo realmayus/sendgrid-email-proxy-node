@@ -12,6 +12,7 @@ app.use(express.json())
 
 app.post("/", async(req, res) => {
     let email = await req.body;
+    console.log(email.envelope);
     let api_res = await fetch(apiUrl + "/mail/send", {
         method: "POST",
         headers: {
