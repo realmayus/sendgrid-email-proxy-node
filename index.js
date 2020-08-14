@@ -33,7 +33,7 @@ app.post("/", async(req, res) => {
                 name: "Email Proxy: " + email.from
             },
             reply_to: {
-                email: email.envelope.from
+                email: JSON.parse(email.envelope).from
             },
             content: [
                 {
