@@ -22,7 +22,7 @@ app.post("/", async(req, res) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + sendgridKey
         },
-        body: JSON.stringify({
+        body: {
             personalizations: [
                 {
                     subject: email.subject,
@@ -44,7 +44,7 @@ app.post("/", async(req, res) => {
                     value: email.text
                 }
             ]
-        })
+        }
     })
 
     console.log(api_res)
