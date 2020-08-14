@@ -33,7 +33,7 @@ app.post("/", async(req, res) => {
         },
         content: [
             {
-                type: "text/html",
+                type: email.text == null ? "text/plain" : "text/html",
                 value: email.text == null ? email.spam_report : email.text
             }
         ]
